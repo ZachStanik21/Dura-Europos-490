@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
 
 from duraapp import views as duraapp_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('vue-test', duraapp_views.vue_test),
+    path('vue', duraapp_views.vue),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
 ]

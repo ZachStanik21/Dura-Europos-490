@@ -1,12 +1,18 @@
 <template>
     <div id="header-main">
         <h1>Dura Europos Cataloguing Interface</h1>
+        <div v-if="authenticated" @click="$emit('logout')">
+            <h3>LOGOUT</h3>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
   name: 'Header',
+  props: [
+      "authenticated",
+  ],
 }
 </script>
 
@@ -18,13 +24,19 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    padding-left: 25px;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding: 25px;
+    z-index: 100;
 }
+
 h1 {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 0;
     font-size: 35px;
+    float: left;
+}
+
+h3 {
+    float: right;
+    margin: 10px 50px 0 0;
+    cursor: pointer;
 }
 </style>

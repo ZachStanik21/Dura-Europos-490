@@ -1,0 +1,187 @@
+<template>
+    <div id="search-container">
+        <div id="search-input-wrapper" @keydown="searchImages">
+            <input id="search" placeholder="Search title..." v-model="titleText">
+            <GroupSelect @group-select="groupSelect"/>
+            <SortSelect @sort-select="sortSelect"/>
+            <button @click="searchImages">SEARCH</button>
+        </div>
+        <div id="results">
+            <img v-for="image in displayImages" :key="image.url" :src="getImagePath(image.url)">
+        </div>
+    </div>
+</template>
+
+<script>
+import GroupSelect from './GroupSelect.vue'
+import SortSelect from './SortSelect.vue'
+
+export default {
+  name: 'SearchArea',
+  data () {
+      return {
+          titleText: "",
+          groupText: "",
+          sortText: "",
+          images: [
+              {
+                  url: "Amulet.jpg",
+                  title: "Amulet",
+                  group: "amulet",
+              },
+              {
+                  url: "Armor.jpg",
+                  title: "Armor",
+                  group: "armor",
+              },
+              {
+                  url: "Bead.jpg",
+                  title: "Bead",
+                  group: "bead",
+              },
+              {
+                  url: "Jar.jpg",
+                  title: "Jar",
+                  group: "jar",
+              },
+              {
+                  url: "Mask.jpg",
+                  title: "Mask",
+                  group: "mask",
+              },
+              {
+                  url: "Painting.jpg",
+                  title: "Painting",
+                  group: "painting",
+              },
+              {
+                  url: "Sword.jpg",
+                  title: "Sword",
+                  group: "sword",
+              },
+          ],
+          displayImages: [],
+      }
+  },
+  components: {
+        GroupSelect,
+        SortSelect,
+  },
+  methods: {
+      groupSelect(group) {
+          this.groupText = group;
+      },
+      sortSelect(sort) {
+          this.sortText = sort;
+      },
+      searchImages(event) {
+          if (event.type == "click" || event.which == 13) {
+            if (this.groupText == "all groups") {
+                this.groupText = "";
+            }
+
+            if (this.groupText && this.titleText) {
+                this.displayImages = this.images.filter(image => image.group == this.groupText && image.title.toLowerCase().includes(this.titleText.toLowerCase()))
+            }
+            else if (this.titleText) {
+                this.displayImages = this.images.filter(image => image.title.toLowerCase().includes(this.titleText.toLowerCase()));
+            }
+            else if (this.groupText) {
+                this.displayImages = this.images.filter(image => image.group == this.groupText)
+            }
+            else {
+                this.displayImages = this.images
+            }
+
+            this.sortText = "";
+          }
+      },
+      getImagePath(url) {
+          return require(`../assets/${url}`);
+      }
+  },
+}
+</script>
+
+<style scoped>
+#search-container {
+    display: grid;
+    margin: 130px auto 0 auto;
+    width: 950px;
+    grid-template-columns: 1fr 3fr;
+}
+
+#search-input-wrapper {
+    grid-column: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 250px;
+    position: fixed;
+}
+
+#search {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    border: 2px solid #C4A484;
+    outline: none;
+    padding-left: 15px;
+    color: #C4A484;
+    font-size: 18px;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+
+#results {
+    grid-column: 2 / 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(auto-fill, 185px);
+    row-gap: 15px;
+}
+
+#search:focus {
+    border-color: #D9B592;
+}
+
+::placeholder {
+    color: #C4A484;
+}
+
+button {
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #C4A484;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+button:focus {
+    background-color: #D9B592;
+}
+
+button:hover {
+    background-color: #D9B592;
+    cursor: pointer;
+}
+
+img {
+    object-fit: cover;
+    display: block;
+    margin: auto;
+    height: 185px;
+    width: 185px;
+    border-radius: 10px;
+    border: 2px solid #C4A484;
+    transition: all .2s ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.08);
+}
+</style>
