@@ -1,6 +1,6 @@
 <template>
     <div id="sort-dropdown">
-        <div id="sort-input" tabindex="5" @focusin="toggle" @focusout="toggle">
+        <div id="sort-input" tabindex="3" @focusin="toggle" @focusout="toggle">
             {{ sortText }}
         </div>
         <div id="sort-list" v-show="listVisible">

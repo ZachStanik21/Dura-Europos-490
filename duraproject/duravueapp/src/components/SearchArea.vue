@@ -1,13 +1,13 @@
 <template>
     <div id="search-container">
         <div id="search-input-wrapper" @keydown="searchImages">
-            <input id="search" placeholder="Search title..." v-model="titleText">
+            <input id="search" tabindex="1" placeholder="Search title..." v-model="titleText">
             <GroupSelect @group-select="groupSelect"/>
             <SortSelect @sort-select="sortSelect"/>
-            <button @click="searchImages">SEARCH</button>
+            <button tabindex="4" @click="searchImages">SEARCH</button>
         </div>
         <div id="results">
-            <img v-for="image in displayImages" :key="image.url" :src="getImagePath(image.url)">
+            <img v-for="image in displayImages" :key="image['id']" :src="image['img_link']" @click="$emit('single-image', image)">
         </div>
     </div>
 </template>
@@ -23,49 +23,16 @@ export default {
           titleText: "",
           groupText: "",
           sortText: "",
-          images: [
-              {
-                  url: "Amulet.jpg",
-                  title: "Amulet",
-                  group: "amulet",
-              },
-              {
-                  url: "Armor.jpg",
-                  title: "Armor",
-                  group: "armor",
-              },
-              {
-                  url: "Bead.jpg",
-                  title: "Bead",
-                  group: "bead",
-              },
-              {
-                  url: "Jar.jpg",
-                  title: "Jar",
-                  group: "jar",
-              },
-              {
-                  url: "Mask.jpg",
-                  title: "Mask",
-                  group: "mask",
-              },
-              {
-                  url: "Painting.jpg",
-                  title: "Painting",
-                  group: "painting",
-              },
-              {
-                  url: "Sword.jpg",
-                  title: "Sword",
-                  group: "sword",
-              },
-          ],
+          images: [],
           displayImages: [],
       }
   },
   components: {
         GroupSelect,
         SortSelect,
+  },
+  mounted() {
+      this.setImages();
   },
   methods: {
       groupSelect(group) {
@@ -81,24 +48,24 @@ export default {
             }
 
             if (this.groupText && this.titleText) {
-                this.displayImages = this.images.filter(image => image.group == this.groupText && image.title.toLowerCase().includes(this.titleText.toLowerCase()))
+                this.displayImages = this.images.filter(image => image['groups'].includes(this.groupText) && image['name'].toLowerCase().includes(this.titleText.toLowerCase()));
             }
             else if (this.titleText) {
-                this.displayImages = this.images.filter(image => image.title.toLowerCase().includes(this.titleText.toLowerCase()));
+                this.displayImages = this.images.filter(image => image['name'].toLowerCase().includes(this.titleText.toLowerCase()));
             }
             else if (this.groupText) {
-                this.displayImages = this.images.filter(image => image.group == this.groupText)
+                this.displayImages = this.images.filter(image => image['groups'].includes(this.groupText));
             }
             else {
-                this.displayImages = this.images
+                this.displayImages = this.images;
             }
 
             this.sortText = "";
           }
       },
-      getImagePath(url) {
-          return require(`../assets/${url}`);
-      }
+      setImages() {
+          this.images = require('../assets/imageData.json');
+      },
   },
 }
 </script>
@@ -183,5 +150,6 @@ img {
 
 img:hover {
     transform: scale(1.08);
+    cursor: pointer;
 }
 </style>

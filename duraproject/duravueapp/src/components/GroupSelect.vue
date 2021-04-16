@@ -1,6 +1,6 @@
 <template>
     <div id="group-dropdown">
-        <input id="group-input" placeholder="Search groups..." v-model.trim="groupText" @focusin="toggle" @focusout="toggle">
+        <input id="group-input" tabindex="2" placeholder="Search groups..." v-model.trim="groupText" @focusin="toggle" @focusout="toggle">
         <div id="group-list" v-show="listVisible">
             <div v-for="group in groupList" :key="group" class="group" v-show="groupVisible(group)" @mousedown="selectGroup(group)">
                 {{ group }}
@@ -38,8 +38,15 @@ export default {
           this.$emit("group-select", group.toLowerCase());
       },
       setGroupList() {
-          this.groupList = ["All Groups", "Ungrouped", "Amulet", "Armor", "Bead", "Jar", "Mask", "Painting", "Sword"];
+          this.groupList = require('../assets/groups.json');
       },
+  },
+  watch: {
+      groupText(newGroup) {
+          if (!newGroup) {
+              this.selectGroup(newGroup);
+          }
+      }
   },
 }
 </script>
