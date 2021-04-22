@@ -48,9 +48,6 @@ button {
     background-color: white;
     color: #DF5959;
     border: 2px solid #C4A484;
-}
-
-html[dir="ltr"] #cancel-button {
     float: left;
 }
 
@@ -63,9 +60,6 @@ html[dir="rtl"] #cancel-button {
     background-color: #C4A484;
     color: white;
     border: none;
-}
-
-html[dir="ltr"] #submit-button {
     float: right;
 }
 

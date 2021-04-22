@@ -117,9 +117,6 @@ export default {
     display: block;
     height: 100%;
     width: 100%;
-}
-
-html[dir="ltr"] #selected-image {
     left: 0;
 }
 
@@ -220,13 +217,11 @@ button:hover {
 
 #wikidata-identifier, #wikidata-search {
     display: inline-block;
-}
-
-html[dir="ltr"] #wikidata-identifier {
     margin-right: 15px;
 }
 
 html[dir="rtl"] #wikidata-identifier {
     margin-left: 15px;
+    margin-right: unset;
 }
 </style>

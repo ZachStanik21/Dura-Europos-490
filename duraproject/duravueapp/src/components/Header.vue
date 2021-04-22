@@ -28,10 +28,6 @@ export default {
     z-index: 100;
 }
 
-html[dir="ltr"] #header-main {
-    left: 0;
-}
-
 html[dir="rtl"] #header-main {
     right: 0;
 }
@@ -39,9 +35,6 @@ html[dir="rtl"] #header-main {
 h1 {
     margin: 0;
     font-size: 35px;
-}
-
-html[dir="ltr"] h1 {
     float: left;
 }
 
@@ -51,9 +44,6 @@ html[dir="rtl"] h1 {
 
 h3 {
     cursor: pointer;
-}
-
-html[dir="ltr"] h3 {
     float: right;
     margin: 10px 50px 0 0;
 }

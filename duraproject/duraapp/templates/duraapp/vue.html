@@ -1,12 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chivo">
+        <link rel="stylesheet" type="text/css" href="{% static 'src/vue/dist/css/app.css' %}">
     </head>
     <body>
         <div id="app"></div>
 
-        {% load static %}
         <script type="text/javascript" src="{% static 'src/vue/dist/js/chunk-vendors.js' %}"></script>
         <script type="text/javascript" src="{% static 'src/vue/dist/js/app.js' %}"></script>
     </body>
