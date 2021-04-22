@@ -8,7 +8,7 @@
             <button @click="searchWikidata">SEARCH</button>
         </div>
         <div id="results-wrapper" v-show="!showSearch">
-            <div v-for="result in results" :key="result.id" class="result-group" @click="$emit('wikidata-item-select')">
+            <div v-for="result in results" :key="result.id" class="result-group" @click="$emit('wikidata-item-select', result.identifier)">
                 <img :src="result.imageLink" />
                 <div class="properties-wrapper">
                     <p class="result"> {{ result.title }} </p>
@@ -53,14 +53,14 @@ export default {
                   id: 1,
                   imageLink: this.image['img_link'],
                   title: this.image['name'],
-                  identifier: "Q0123456789",
+                  identifier: "Q9876543210",
                   accession: "1934.435",
               },
               {
                   id: 2,
                   imageLink: this.image['img_link'],
                   title: this.image['name'],
-                  identifier: "Q0123456789",
+                  identifier: "Q0123498765",
                   accession: "1934.435",
               },
           ];
@@ -99,6 +99,7 @@ input {
     border: 2px solid #C4A484;
     outline: none;
     padding-left: 15px;
+    padding-right: 15px;
     color: #C4A484;
     font-size: 16px;
     font-weight: 400;

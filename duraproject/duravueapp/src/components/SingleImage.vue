@@ -1,16 +1,16 @@
 <template>
     <div id="container">
         <div id="info-container">
-            <p @click="$emit('group-view-on')" id="search-return">Back to search</p>
+            <p @click="$emit('group-view-on', false, false)" id="search-return">Back to search</p>
             <div id="image-wrapper">
                 <img id="selected-image" :src="image['img_link']">
             </div>
             <div id="image-properties-submit-wrapper">
-                <button id="submit-button">SUBMIT DATA</button>
+                <button id="submit-button" @click="toggleForeground('submission')">SUBMIT DATA</button>
                 <div id="properties-wrapper">
                     <p><strong>Wikidata Identifier</strong></p>
-                    <p id="wikidata-identifier" v-show="selectedItem">Q0123456789</p>
-                    <button id="wikidata-search" @click="toggleWikidata(), toggleBackground()">SEARCH</button>
+                    <p id="wikidata-identifier" v-show="selectedItem"> {{ selectedItem }} </p>
+                    <button id="wikidata-search" @click="toggleForeground('wikidata')">SEARCH</button>
                     <div id="image-properties" v-for="(val, name) in imageProps" :key="name">
                         <p><strong> {{ name }} </strong></p>
                         <p v-if="val"> {{ val }} </p>
@@ -19,26 +19,31 @@
                 </div>
             </div>
         </div>
-        <div id="background-blur" v-show="background" @click.stop="toggleWikidata(), toggleBackground()">
+        <div id="background-blur" v-show="background" @click="toggleForeground('')">
         </div>
         <WikidataSearch :image="image" v-if="wikidata" @wikidata-item-select="selectWikidata" />
+        <DataSubmission v-show="submission" @cancel="toggleForeground('')" @submit="$emit('group-view-on', true, true)" />
     </div>
 </template>
 
 <script>
 import WikidataSearch from "./WikidataSeach.vue"
+import DataSubmission from "./DataSubmission.vue"
 
 export default {
   name: 'SingleImage',
   props: ['image'],
   components: {
       WikidataSearch,
+      DataSubmission,
   },
   data() {
       return {
           background: false,
+          foreground: "",
           wikidata: false,
-          selectedItem: false,
+          submission: false,
+          selectedItem: "",
       }
   },
   computed: {
@@ -58,16 +63,23 @@ export default {
     },
   },
   methods: {
-      toggleBackground() {
+      toggleForeground(foreground) {
+          if (foreground) {
+              this.foreground = foreground;
+          }
+          
+          if(this.foreground == "wikidata") {
+              this.wikidata = !this.wikidata;
+          }
+          else {
+              this.submission = !this.submission;
+          }
+
           this.background = !this.background;
       },
-      toggleWikidata() {
-          this.wikidata = !this.wikidata;
-      },
-      selectWikidata() {
-          this.selectedItem = true;
-          this.toggleBackground();
-          this.toggleWikidata();
+      selectWikidata(identifier) {
+          this.selectedItem = identifier;
+          this.toggleForeground('');
       },
   }
 }
@@ -101,11 +113,18 @@ export default {
 #selected-image {
     position: absolute;
     top: 0;
-    left: 0;
     object-fit: contain;
     display: block;
     height: 100%;
     width: 100%;
+}
+
+html[dir="ltr"] #selected-image {
+    left: 0;
+}
+
+html[dir="rtl"] #selected-image {
+    right: 0;
 }
 
 #search-return {
@@ -114,6 +133,7 @@ export default {
     cursor: pointer;
     margin: 0;
     padding-left: 20px;
+    padding-right: 20px;
 }
 
 #image-properties-submit-wrapper {
@@ -137,6 +157,7 @@ input {
     border: 2px solid #C4A484;
     outline: none;
     padding-left: 10px;
+    padding-right: 10px;
     color: #C4A484;
     font-size: 16px;
     font-weight: 400;
@@ -201,7 +222,11 @@ button:hover {
     display: inline-block;
 }
 
-#wikidata-identifier {
+html[dir="ltr"] #wikidata-identifier {
     margin-right: 15px;
+}
+
+html[dir="rtl"] #wikidata-identifier {
+    margin-left: 15px;
 }
 </style>

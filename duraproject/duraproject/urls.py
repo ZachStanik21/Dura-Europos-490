@@ -21,6 +21,6 @@ from duraapp import views as duraapp_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('vue', duraapp_views.vue),
+    path('', duraapp_views.vue),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
 ]

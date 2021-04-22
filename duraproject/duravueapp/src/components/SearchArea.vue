@@ -2,11 +2,12 @@
     <div id="search-container">
         <div id="search-input-wrapper" @keydown="searchImages">
             <input id="search" tabindex="1" placeholder="Search title..." v-model="titleText">
-            <GroupSelect @group-select="groupSelect"/>
-            <SortSelect @sort-select="sortSelect"/>
+            <GroupSelect @group-select="groupSelect" :clear="clear"/>
+            <SortSelect @sort-select="sortSelect" :clear="clear"/>
             <button tabindex="4" @click="searchImages">SEARCH</button>
         </div>
         <div id="results">
+            <p v-show="submission">Submission successful!</p>
             <img v-for="image in displayImages" :key="image['id']" :src="image['img_link']" @click="$emit('single-image', image)">
         </div>
     </div>
@@ -18,6 +19,10 @@ import SortSelect from './SortSelect.vue'
 
 export default {
   name: 'SearchArea',
+  props: [
+      'clear',
+      'submission'
+  ],
   data () {
       return {
           titleText: "",
@@ -61,21 +66,40 @@ export default {
             }
 
             this.sortText = "";
+            this.$emit('search');
           }
       },
       setImages() {
           this.images = require('../assets/imageData.json');
       },
   },
+  watch: {
+      clear(newClear) {
+          if (newClear) {
+              this.groupText = "";
+              this.titleText = "";
+              this.sortText = "";
+              this.displayImages = [];
+              this.$emit('data-ready');
+          }
+      }
+  }
 }
 </script>
 
 <style scoped>
+p {
+    margin: 0 10px 0 10px;
+    color: #C4A484;
+    font-size: 18px;
+}
+
 #search-container {
     display: grid;
     margin: 130px auto 0 auto;
     width: 950px;
     grid-template-columns: 1fr 3fr;
+    gap: 25px;
 }
 
 #search-input-wrapper {
@@ -94,6 +118,7 @@ export default {
     border: 2px solid #C4A484;
     outline: none;
     padding-left: 15px;
+    padding-right: 15px;
     color: #C4A484;
     font-size: 18px;
     font-weight: 400;

@@ -14,6 +14,7 @@
 <script>
 export default {
   name: 'SortSelect',
+  props: ['clear'],
   data () {
       return {
           sortList: ["Title", "Accession no.", "Date created"],
@@ -32,6 +33,14 @@ export default {
           this.$emit("sort-select", sort);
       },
   },
+  watch: {
+      clear(newClear) {
+          if (newClear) {
+            this.selectedSort = "";
+            this.sortText = "Sort by...";
+          }
+      }
+  }
 }
 </script>
 
@@ -51,7 +60,7 @@ export default {
     font-weight: 400;
     position: relative;
     z-index: 2;
-    padding: 9px 0 0 15px;
+    padding: 9px 15px 0 15px;
     box-sizing: border-box;
     cursor: pointer;
 }
@@ -78,8 +87,7 @@ export default {
     height: 30px;
     width: 100%;
     color: white;
-    padding-left: 15px;
-    padding-top: 7px;
+    padding: 7px 15px 0 15px;
     font-size: 16px;
 }
 

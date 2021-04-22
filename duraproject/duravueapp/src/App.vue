@@ -1,8 +1,8 @@
 <template>
     <Header :authenticated="authenticated" @logout="logout"/>
     <Login v-if="!authenticated" @authenticate="authenticate"/>
-    <SearchArea v-show="authenticated && groupView" @single-image="singleImageView"/>
-    <SingleImage v-show="!groupView && authenticated" :image="image" @group-view-on="groupViewOn"/>
+    <SearchArea v-show="authenticated && groupView" :clear="clear" :submission="submission" @search="setSubmission" @data-ready="setClear" @single-image="singleImageView"/>
+    <SingleImage v-if="!groupView && authenticated" :image="image" @group-view-on="groupViewOn"/>
 </template>
 
 <script>
@@ -17,6 +17,8 @@ export default {
         return {
             authenticated: false,
             groupView: true,
+            clear: false,
+            submission: false,
             image: {},
         }
     },
@@ -33,13 +35,27 @@ export default {
         logout() {
             this.authenticated = false;
             this.groupView = true;
+            this.clear = true;
+            this.submission = false;
         },
         singleImageView(image) {
             this.groupView = false;
             this.image = image;
         },
-        groupViewOn() {
+        groupViewOn(clear, submission) {
             this.groupView = true;
+            if (clear) {
+                this.clear = true;
+            }
+            if (submission) {
+                this.submission = true;
+            }
+        },
+        setClear() {
+            this.clear = false;
+        },
+        setSubmission() {
+            this.submission = false;
         }
     }
 }

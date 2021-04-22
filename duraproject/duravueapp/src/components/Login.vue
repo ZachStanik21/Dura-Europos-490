@@ -51,6 +51,7 @@ input {
     border: 2px solid #C4A484;
     outline: none;
     padding-left: 15px;
+    padding-right: 15px;
     color: #C4A484;
     font-size: 18px;
     font-weight: 400;
