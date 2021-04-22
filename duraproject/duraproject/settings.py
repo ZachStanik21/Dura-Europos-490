@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'e94v6q^-6x!laj_5dln)2yv(w=%a#^4ngi5i+-vo)s+08_4c&1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -124,3 +124,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'var/static_root/'
 STATICFILES_DIRS = ['static']
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
