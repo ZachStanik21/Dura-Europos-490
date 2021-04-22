@@ -1,1 +1,1 @@
-web: gunicorn duraproject/duraproject.wsgi
+web: gunicorn duraproject.duraproject.wsgi
