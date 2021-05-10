@@ -8,7 +8,10 @@
         </div>
         <div id="results">
             <p v-show="submission">Submission successful!</p>
-            <img v-for="image in displayImages" :key="image['id']" :src="image['img_link']" @click="$emit('single-image', image)">
+            <div v-for="image in displayImages" :key="image['id']" @click="$emit('single-image', image)">
+                <img :src="image['img_link']">
+                <p class="image-title">{{ image['name'] }}</p>
+            </div>
         </div>
     </div>
 </template>
@@ -65,7 +68,48 @@ export default {
                 this.displayImages = this.images;
             }
 
-            this.sortText = "";
+            if (this.sortText) {
+                if (this.sortText == "Title") {
+                    this.displayImages.sort((e1, e2) => {
+                        if (e1['name'] < e2['name']) {
+                            return -1;
+                        }
+                        else if (e1['name'] == e2['name']) {
+                            return 0;
+                        }
+                        else {
+                            return 1;
+                        }
+                    });
+                }
+                else if (this.sortText == "Accession no.") {
+                    this.displayImages.sort((e1, e2) => {
+                        if (e1['accession'] < e2['accession']) {
+                            return -1;
+                        }
+                        else if (e1['accession'] == e2['accession']) {
+                            return 0;
+                        }
+                        else {
+                            return 1;
+                        }
+                    });
+                }
+                else {
+                    this.displayImages.sort((e1, e2) => {
+                        if (e1['date'] < e2['date']) {
+                            return -1;
+                        }
+                        else if (e1['date'] == e2['date']) {
+                            return 0;
+                        }
+                        else {
+                            return 1;
+                        }
+                    });
+                }
+            }
+
             this.$emit('search');
           }
       },
@@ -82,7 +126,7 @@ export default {
               this.displayImages = [];
               this.$emit('data-ready');
           }
-      }
+      },
   }
 }
 </script>
@@ -129,7 +173,7 @@ p {
     grid-column: 2 / 3;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(auto-fill, 185px);
+    grid-template-rows: repeat(auto-fill, auto);
     row-gap: 15px;
 }
 
@@ -176,5 +220,12 @@ img {
 img:hover {
     transform: scale(1.08);
     cursor: pointer;
+}
+
+.image-title {
+    font-size: 14px;
+    padding-left: 12px;
+    margin-top: 12px;
+    margin-bottom: 25px;
 }
 </style>
