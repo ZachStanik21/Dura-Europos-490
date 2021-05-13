@@ -120,6 +120,10 @@ export default {
     left: 0;
 }
 
+html[dir="ltr"] #selected-image {
+    left: 0;
+}
+
 html[dir="rtl"] #selected-image {
     right: 0;
 }
@@ -217,11 +221,22 @@ button:hover {
 
 #wikidata-identifier, #wikidata-search {
     display: inline-block;
-    margin-right: 15px;
+    margin: 0 15px 0 0;
+}
+
+html[dir="ltr"] #wikidata-identifier {
+    margin: 0 15px 0 0;
+}
+
+html[dir="ltr"] #wikidata-search {
+    margin: 0 15px 0 0;
 }
 
 html[dir="rtl"] #wikidata-identifier {
-    margin-left: 15px;
-    margin-right: unset;
+    margin: 0 0 0 15px;
+}
+
+html[dir="rtl"] #wikidata-search {
+    margin: 0 0 0 15px;
 }
 </style>

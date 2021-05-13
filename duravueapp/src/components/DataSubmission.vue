@@ -51,6 +51,10 @@ button {
     float: left;
 }
 
+html[dir="ltr"] #cancel-button {
+    float: left;
+}
+
 html[dir="rtl"] #cancel-button {
     float: right;
 }
@@ -60,6 +64,10 @@ html[dir="rtl"] #cancel-button {
     background-color: #C4A484;
     color: white;
     border: none;
+    float: right;
+}
+
+html[dir="ltr"] #submit-button {
     float: right;
 }
 
